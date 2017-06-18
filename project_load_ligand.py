@@ -16,16 +16,19 @@ molecule = Ligand(p._('project.molecule.db'))
 for id in open(filename):
 	id = id.strip('\n')
 	molecule.add(id)
-	print(id)
 
 molecule.commit()
 
-'''
 # download ligand structures
+def save(id, s, format, dir):
+	filename = '{}/{}.{}'.format(dir,id, format)
+	with open(filename,'w+') as file:
+		file.write(s)
+	print(id)
+
+structure_dir = p._('project.structure.ligand')
 molecule.foreachStructure(
-	molecule.LIGAND_DOM,
-	lambda id, s: print(id, s)
+	lambda id, s, format: save(id, s, format, structure_dir)
 	)
-'''
 
 molecule.close()
