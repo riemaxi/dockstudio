@@ -3,7 +3,8 @@ project.dir: project
 
 # data
 project.db: data/project.db
-project.molecule.db: data/molecule.db
+project.ligand.db: data/ligand.db
+project.receptor.db: data/receptor.db
 project.structure.ligand: data/structure/ligand
 project.structure.receptor: data/structure/receptor
 

@@ -9,25 +9,28 @@ dir = p._('project.dir')
 name = p._('project.wizard.create.name')
 project_dir = dir + '/' + name
 
-receptors = '{}/{}'.format(project_dir, p._('project.wizard.load.receptor'))
+filename = '{}/{}'.format(project_dir, p._('project.wizard.load.receptor'))
 
 # import ligands
-molecule = Receptor(p._('project.molecule.db'))
+molecule = Receptor(p._('project.receptor.db'))
+molecule.clear()
 
 # import data
-for id in open(receptors):
+for id in open(filename):
 	id = id.strip('\n')
 	molecule.add(id)
-	print(id)
-
 molecule.commit()
 
-'''
 # download structures
+def save(id,s,format, dir):
+	filename = '{}/{}.{}'.format(dir, id, format)
+	with open(filename,'w') as file:
+		file.write(s)
+	print(id)
+
+structure_dir = p._('project.structure.receptor')
 molecule.foreachStructure(
-	molecule.RECEPTOR_DOM,
-	lambda id, s: print(id, s)
+	lambda id, s, format: save(id, s, format, structure_dir)
 	)
-'''
 
 molecule.close()

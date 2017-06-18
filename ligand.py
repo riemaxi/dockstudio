@@ -6,7 +6,7 @@ class Ligand(Molecule):
 	STRUCTURE_FORMAT = 'sdf'
 
 	def __init__(self, name):
-		Molecule.__init__(self, name, 0)
+		Molecule.__init__(self, name)
 
 	def add(self, id):
 		Molecule.pushEntity(self, id, [(0, id)])

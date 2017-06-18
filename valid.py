@@ -115,23 +115,14 @@ class Domain:
 		entity = {}
 		for record in result:
 			entity[record[1]] = record[2]
-
-			if id != -1 and id != record[0]:
-				entity[idIdx] = id
+			if id != record[0]:
+				entity[idIdx] = record[0]
 
 				keys = sorted([x[0] for x in entity.items()])
-				if sink([(k , entity[k]) for k in keys]):
+				data = [(k , entity[k]) for k in keys]
+				if sink(data):
 					return
-	
 			id = record[0]
-		
-		
-		#last one
-		entity[idIdx] = id
-	
-		keys = sorted([x[0] for x in entity.items()])
-		sink([(k , entity[k]) for k in keys])
-
 
 	def xforeach(self, query, sink):
 		c = self.sess.cursor()
