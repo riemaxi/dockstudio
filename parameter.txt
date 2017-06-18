@@ -1,0 +1,13 @@
+# dir tree
+project.dir: project
+
+# data
+project.db: data/project.db
+project.molecule.db: data/molecule.db
+
+
+# wizard
+project.wizard.create.name: toxim
+
+project.wizard.load.receptor: stage/receptor.txt
+project.wizard.load.ligand: stage/ligand.txt
