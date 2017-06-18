@@ -1,2 +1,2 @@
 # dockstudio
-Command line based molecular docking studio, implemented for clusters
+Command line based molecular docking studio. Designed with clusters in mind
