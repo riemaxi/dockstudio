@@ -13,3 +13,6 @@ project.wizard.create.name: toxim
 
 project.wizard.load.receptor: stage/receptor.txt
 project.wizard.load.ligand: stage/ligand.txt
+
+project.wizard.receptor_report.columns: structureTitle,structureAuthor
+project.wizard.ligand_report.columns: Rotateble Bond,InChI, Molecular Formula, Weight, Isomeric
