@@ -54,3 +54,9 @@ class Receptor(Molecule):
 			self,
 			lambda data: sink(data[1][1], self.fetchRecord(data[1][1], columns, colist) )
 		)
+
+	def foreachId(self, sink):
+		Molecule.foreach(
+			self,
+			lambda data: sink( data[1][1] )
+		)

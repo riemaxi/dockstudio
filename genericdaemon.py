@@ -3,11 +3,11 @@ import sys,time,os
 from daemon import Daemon
 
 class GenericDaemon(Daemon):
-	def __init__(self,user, root, db, dock_dir, payload = 450, proc_name='create_grid_job', squeue_file='squeue.txt', hold_time = 10):
+	def __init__(self,user, root, db, dock_dir, payload = 450, proc_name='job', squeue_file='squeue.txt', hold_time = 10, log = 'log'):
 		Daemon.__init__(self,
-			root + 'temp/daemon_' + proc_name + '.pid',
-			stdout = root + 'temp/daemon_' + proc_name + '.txt',
-			stderr = root + 'temp/daemon_' + proc_name + '_error.txt')
+			root + 'log/daemon_' + proc_name + '.pid',
+			stdout = root + log + ' /daemon_' + proc_name + '.txt',
+			stderr = root + log + '/daemon_' + proc_name + '_error.txt')
 
 		self.user = user
 		self.root = root
@@ -16,7 +16,7 @@ class GenericDaemon(Daemon):
 		self.payload = payload
 		self.proc_name = proc_name
 		self.proc_name_script = proc_name + '.sh'
-		self.squeue_file = root + 'temp/' + proc_name + '_' + squeue_file
+		self.squeue_file = root + log + '/' + proc_name + '_' + squeue_file
 		self.command = 'sbatch ' + self.proc_name_script
 		self.hold_time = hold_time
 		self.template = open(root + 'template/' + self.proc_name_script).read()

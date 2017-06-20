@@ -15,7 +15,9 @@ os.system('mkdir {}/receptor'.format(project_dir))
 os.system('mkdir {}/ligand'.format(project_dir))
 os.system('mkdir {}/docking'.format(project_dir))
 os.system('mkdir {}/docking/done'.format(project_dir))
-os.system('mkdir {}/stage'.format(project_dir))
+os.system('mkdir {}/log'.format(project_dir))
+os.system('mkdir {}/template'.format(project_dir))
+
 
 
 
