@@ -5,14 +5,15 @@ from receptor import Receptor
 p = Parameter()
 
 #locate tree
-dir = p._('project.dir')
+dir = p._('project.dir') + '/'
 name = p._('project.wizard.create.name')
-project_dir = dir + '/' + name
+project_dir = dir + name
+data_dir = project_dir + '/data/'
 
-filename = '{}/{}'.format(project_dir, p._('project.wizard.load.receptor'))
+filename = '{}/stage/{}'.format(project_dir, p._('project.wizard.load.receptor'))
 
 # import ligands
-molecule = Receptor(p._('project.receptor.db'))
+molecule = Receptor(data_dir + p._('project.wizard.receptor.db'))
 molecule.clear()
 
 # import data
@@ -28,7 +29,7 @@ def save(id,s,format, dir):
 		file.write(s)
 	print(id)
 
-structure_dir = p._('project.structure.receptor')
+structure_dir = data_dir + 'structure/receptor'
 molecule.foreachStructure(
 	lambda id, s, format: save(id, s, format, structure_dir)
 	)

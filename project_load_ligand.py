@@ -8,12 +8,14 @@ p = Parameter()
 dir = p._('project.dir')
 name = p._('project.wizard.create.name')
 project_dir = dir + '/' + name
+data_dir = project_dir + '/data' 
 
-filename = '{}/{}'.format(project_dir,p._('project.wizard.load.ligand'))
+filename = '{}/stage/{}'.format(project_dir,p._('project.wizard.load.ligand'))
 
 #import data
-molecule = Ligand(p._('project.ligand.db'))
+molecule = Ligand(data_dir + '/' + p._('project.wizard.ligand.db'))
 molecule.clear()
+
 for id in open(filename):
 	id = id.strip('\n')
 	molecule.add(id)
@@ -27,7 +29,7 @@ def save(id, s, format, dir):
 		file.write(s)
 	print(id)
 
-structure_dir = p._('project.structure.ligand')
+structure_dir = project_dir + '/data/structure/ligand'
 molecule.foreachStructure(
 	lambda id, s, format: save(id, s, format, structure_dir)
 	)

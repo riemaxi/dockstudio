@@ -4,7 +4,11 @@ from receptor import Receptor
 
 p = Parameter()
 
-molecule = Receptor(p._('project.receptor.db'))
+dir = p._('project.dir') + '/'
+project_dir = dir + p._('project.wizard.create.name')
+data_dir = project_dir + '/data/'
+
+molecule = Receptor(data_dir + p._('project.wizard.receptor.db'))
 
 columns = p._('project.wizard.receptor_report.columns')
 molecule.foreachRecord(

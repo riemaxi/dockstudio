@@ -11,13 +11,13 @@ project_dir = dir + '/' + name
 os.system('rm -r {}'.format(project_dir))
 
 os.system('mkdir {}'.format(project_dir))
-os.system('mkdir {}/receptor'.format(project_dir))
-os.system('mkdir {}/ligand'.format(project_dir))
+os.system('mkdir {}/data'.format(project_dir))
+os.system('mkdir {}/data/structure'.format(project_dir))
+os.system('mkdir {}/data/structure/receptor'.format(project_dir))
+os.system('mkdir {}/data/structure/ligand'.format(project_dir))
+
 os.system('mkdir {}/docking'.format(project_dir))
 os.system('mkdir {}/docking/done'.format(project_dir))
 os.system('mkdir {}/log'.format(project_dir))
 os.system('mkdir {}/template'.format(project_dir))
-
-
-
-
+os.system('mkdir {}/stage'.format(project_dir))

@@ -33,7 +33,7 @@ class Ligand(Molecule):
 		for item in r:
 			if item['urn'].get('label','') in columns:
 				val = item['value'].get('sval', item['value'].get('ival', item['value'].get('fval'))) 
-				data.append(str(val))
+				data.append(str(val).strip())
 
 		return data
 
