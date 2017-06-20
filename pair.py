@@ -4,7 +4,7 @@ class Pair(Domain):
 	def __init__(self, name):
 		Domain.__init__(self,name)
 
-	def add(self, pid, cid, pid):
+	def add(self, pid, cid):
 		self.pushEntity(pid, [(cid, '{}_{}'.format(pid,cid))])
 
 

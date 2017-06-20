@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<table>
+	<tr>
+		<td>
+			<canvas id="yCanvas" width="{{ycanvas.width}}" height="{{ycanvas.height}}" style="{{ycanvas.style}}"></canvas>
+		</td>
+
+		<td>
+			<canvas id="gCanvas" width="{{gcanvas.width}}" height="{{gcanvas.height}}" style="{{gcanvas.style}}"></canvas>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<canvas id="cCanvas" width="{{ccanvas.width}}" height="{{ccanvas.height}}" style="{{ccanvas.style}}"></canvas>
+		</td>
+
+		<td>
+			<canvas id="xCanvas" width="{{xcanvas.width}}" height="{{xcanvas.height}}" style="{{xcanvas.style}}"></canvas>
+		</td>
+
+	</tr>
+</table>
+
+<!-- Graphic -->
+<script>
+	function getColor(value){
+	}
+
+	var c = document.getElementById("gCanvas");
+	var ctx = c.getContext("2d");
+	var maxh = {{maxheight}};
+	var maxw = {{maxwidth}};
+	var matrix = {{matrix}};
+
+	var cols = matrix[0].length
+	var rows = matrix.length
+	var xscale = maxw/cols
+	var yscale = maxh/rows
+
+	for(i=0; i<cols; i++){
+		for(j=0; j<rows; j++)
+			color = getColor(matrix[i][j])
+			
+			ctx.moveTo(xscale * x[i],maxh - yscale * y[i]);
+	}
+</script>
+
+<!-- y axis -->
+<script>
+</script>
+
+<!-- x axis -->
+<script>
+</script>
+
+</body>
+</html>

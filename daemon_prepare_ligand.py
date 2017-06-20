@@ -1,22 +1,23 @@
 import os
 from genericdaemon import GenericDaemon
 from parameter import Parameter
-from progress import Progress
+from pair import Pair
+from path import Path
 
 p = Parameter()
-root = p._('root')
+pt = Path(p)
 user = p._('user')
 payload = p.i('daemon.sbatch.payload')
 
 proc_name = 'prepare_ligand'
 
 class PrepareLigand(GenericDaemon):
-	def __init__(self, db, dir):
+	def __init__(self):
 		GenericDaemon.__init__(self,
 					user,
-					root, 
-					db,
-					dir,
+					pt.root, 
+					pt.pairdb,
+					pt.docking,
 					payload,
 					process_name)
 

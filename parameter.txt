@@ -1,3 +1,5 @@
+user: ferrer
+
 # dir tree
 project.dir: project
 
@@ -8,7 +10,10 @@ project.wizard.load.receptor: receptor.txt
 project.wizard.load.ligand: ligand.txt
 project.wizard.ligand.db: ligand.db
 project.wizard.receptor.db: receptor.db
+project.wizard.pair.db: pair.db
 
 project.wizard.receptor_report.columns: structureTitle,structureAuthor
 #project.wizard.ligand_report.columns: Rotateble Bond,InChI, Molecular Formula, Weight, Isomeric
 project.wizard.ligand_report.columns: Weight, Molecular Formula
+
+daemon.sbatch.payload: 10
