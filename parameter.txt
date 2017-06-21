@@ -16,4 +16,4 @@ project.wizard.receptor_report.columns: structureTitle,structureAuthor
 #project.wizard.ligand_report.columns: Rotateble Bond,InChI, Molecular Formula, Weight, Isomeric
 project.wizard.ligand_report.columns: Weight, Molecular Formula
 
-daemon.sbatch.payload: 10
+daemon.sbatch.payload: 4
