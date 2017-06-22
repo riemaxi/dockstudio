@@ -12,6 +12,14 @@ class Path:
 		self.receptordb = self.data + p._('project.wizard.receptor.db')
 		self.liganddb = self.data + p._('project.wizard.ligand.db')
 		self.docking_ligand = self.docking + 'ligand'
+		self.docking_receptor = self.docking + 'receptor'
+
+	def clear(self, proc_name):
+		os.system('rm -f ' + self.pidfile(proc_name))
+		os.system('rm -f ' + self.stdout(proc_name))
+		os.system('rm -f ' + self.stderr(proc_name))
+		os.system('rm -f ' + self.squeue_stats(proc_name))
+		os.system('rm -f {}/{}_*.out'.format(self.log, proc_name))
 
 
 	def pairdir(self, pid, cid):
@@ -58,7 +66,7 @@ class Path:
 
 
 	def receptor(self, id):
-		return '{}/structure/receptor/{}.pdb'.format(self.dir, id )
+		return '{}structure/receptor/{}.pdb'.format(self.data, id )
 
 	def receptorpdbqt(self, id):
-		return '{}/receptor/{}.pdbqt'.format(self.dir, id )
+		return '{}receptor/{}.pdbqt'.format(self.docking, id )
