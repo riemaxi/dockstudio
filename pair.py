@@ -4,12 +4,12 @@ class Pair(Domain):
 	def __init__(self, name):
 		Domain.__init__(self,name)
 
-	def add(self, pid, cid):
-		self.pushEntity(pid, [(cid, '{}_{}'.format(pid,cid))])
+	def add(self, cid, pid):
+		self.pushEntity(cid, [(pid, '{}_{}'.format(cid,pid))])
 
 
-	def foreachPair(self, pid, cids, sink):
-		for cid in cids:
+	def foreachPair(self, cid, pids, sink):
+		for pid in pids:
 			if sink(pid, cid):
 				return True
 

@@ -1,11 +1,11 @@
 from parameter import Parameter
 from pair import Pair
+from path import Path
 
 p = Parameter()
+pt = Path(p)
 
-root = p._('root')
-dir = root + '/' + p._('project.wizard.name')
-pair = Pair(dir + '/pair.db')
+pair = Pair(pt.pairdb)
 
 pair.foreach(
 	lambda pid, cid : print(pid, cid, sep = '\t')

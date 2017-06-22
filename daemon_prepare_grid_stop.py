@@ -1,13 +1,11 @@
 from signal import SIGTERM
 import os
-from daemon_prepare_grid import PrepareGrid, pt
+from daemon_prepare_grid import PrepareGrid, pt, process_name
 
 try:
-	pid = int(open(pt.pidfile).read().strip('\n'))
+	pid = int(open(pt.pidfile(process_name)).read().strip('\n'))
 	os.kill(pid, SIGTERM)
 except OSError as e:
-	print(e)
+	pass
 
-os.system('rm ' + pt.pidfile)
-os.system('rm ' + pt.stdout)
-
+pt.clear(process_name)

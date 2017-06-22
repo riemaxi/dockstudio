@@ -7,15 +7,16 @@ from path import Path
 p = Parameter()
 pt = Path(p)
 
-pair = Pair(pt.data + p._('project.wizard.pair.db'))
+pair = Pair(pt.pairdb)
 pair.clear()
 
 for tpl in sys.stdin:
 	pid, cid = tpl.strip('\n').split('\t')
 
-	filename = pt.pairdir(pid, cid)
-	if not os.path.isdir(filename):
-		print(pid, cid, filename, sep='\t')
+	dirname = pt.pairdir(pid, cid)
+	if not os.path.isdir(dirname):
+		pair.add(cid, pid)
+		print(pid, cid, dirname, sep='\t')
 
 pair.commit()
 pair.close()

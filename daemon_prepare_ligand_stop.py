@@ -8,9 +8,4 @@ try:
 except OSError as e:
 	pass
 
-os.system('rm -f ' + pt.pidfile(process_name))
-os.system('rm -f ' + pt.stdout(process_name))
-os.system('rm -f ' + pt.stderr(process_name))
-os.system('rm -f ' + pt.squeue_stats(process_name))
-os.system('rm -f {}/{}_*.out'.format(pt.log, process_name))
-
+pt.clear(process_name)
