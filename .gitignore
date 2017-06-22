@@ -1,2 +1,5 @@
 *.pyc
 waste.*
+*.pdbqt
+*.pdb
+*.out
