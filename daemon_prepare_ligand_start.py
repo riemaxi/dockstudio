@@ -1,5 +1,5 @@
 import sys
 from daemon_prepare_ligand import PrepareLigand
 
-#PrepareLigand().start()
+PrepareLigand().start()
 sys.exit(0)
