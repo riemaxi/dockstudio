@@ -9,20 +9,20 @@ class PairDaemon(Daemon):
 			stdout = path.stdout(proc_name),
 			stderr = path.stderr(proc_name))
 
+
 		self.path = path
 		self.user = user
 		self.db = db
 		self.payload = payload
 		self.proc_name = proc_name
-		self.command = 'sbatch ' + self.path.job_script(self.proc_name)
 		self.hold_time = hold_time
 		self.template = open(self.path.job_template(self.proc_name)).read()
 		self.count = 1
 
-	def prepare(self,dir, pid, cid, templ):
+	def prepare(self, pid, cid, templ):
 		pass
 
-	def resume(self, dir, cid, pid):
+	def resume(self, cid, pid):
 		pass
 
 	def jCount(self):
@@ -49,29 +49,18 @@ class PairDaemon(Daemon):
 		if self.count % self.payload == 0:
 			self.hold()
 
-		dir = self.path.pairdir(pid,cid)
-
-		os.chdir(dir)
-		self.prepare(dir, pid, cid, self.template)
+		self.prepare(pid, cid, self.template)
 
 		os.system(self.command)
 
-		self.resume(dir, pid, cid)
-		os.chdir(self.path.root)
+		self.resume(pid, cid)
 
 		print('{}\t{}'.format(pid,cid))
 
 		self.count += 1
 
+
 	def run(self):
-		while self.count > 0:
-			for tpl in self.stdin:
-				pid, cid = tpl.strip('\n').split('\t')
-				self.process_pair(pid, cid)
-
-			self.count = 0
-
-	def _run(self):
 		while self.count > 0:
 			self.db.foreach(
 				lambda pid, cid: self.process_pair(pid, cid)

@@ -1,21 +1,23 @@
-from valid import Domain
+from ligand import Ligand
+from receptor import Receptor
 
-class Pair(Domain):
-	def __init__(self, name):
-		Domain.__init__(self,name)
-
-	def add(self, cid, pid):
-		self.pushEntity(cid, [(pid, '{}_{}'.format(cid,pid))])
+class Pair:
+	def __init__(self, receptordb, liganddb):
+		self.ligand = Ligand(liganddb)
+		self.receptor = Receptor(receptordb)
 
 
-	def foreachPair(self, cid, pids, sink):
-		for pid in pids:
-			if sink(pid, cid):
-				return True
+	def foreachPair(self, pid, sink):
+		self.ligand.foreachId(
+			lambda cid: sink(pid, cid)
+		)
 
 	def foreach(self, sink, criteria = ''):
-		Domain.foreach(
-			self,
-			lambda data: self.foreachPair( data[0][1],data[1:], sink)
+		self.receptor.foreachId(
+			lambda pid: self.foreachPair( pid, sink)
 		)
+
+	def close(self):
+		self.ligand.close()
+		self.receptor.close()
 

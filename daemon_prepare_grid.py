@@ -3,6 +3,7 @@ import os
 from pairdaemon import PairDaemon
 from parameter import Parameter
 from path import Path
+from pair import Pair
 
 process_name = 'prepare_grid'
 
@@ -10,25 +11,31 @@ p = Parameter()
 pt = Path(p)
 user = p._('user')
 payload = p.i('daemon.sbatch.payload')
+db = Pair(pt.receptordb, pt.liganddb)
 
 class PrepareGrid(PairDaemon):
 	def __init__(self):
 		PairDaemon.__init__(self,
 					user,
-					None,
+					db,
 					pt,
 					payload,
-					process_name,
-					stdin = sys.stdin)
+					process_name)
 
 	def step_done(self, pid, cid):
-		return os.path.isdire(pt.pairdir(pid, cid))
+		return os.path.isdir(pt.pairdir(pid, cid))
 
 
-	def prepare(self, dir,  pid, cid, templ):
+	def prepare(self,  pid, cid, templ):
+		dir = self.path.pairdir(pid, cid)
+		os.system('mkdir ' + dir)
+		os.chdir(dir)
+
+		os.system('cp {} receptor.pdbqt'.format(pt.receptorpdbqt(pid)))
+
 		log_name = '{}/{}_{}_{}.out'.format(self.path.log, self.proc_name, pid,cid)
-		templ = self.template.format(log_name, self.path.ligandpdbqt(cid), self.path.receptorpdbqt(pid))
-		target = '{}.sbatch'.format(id, self.proc_name)
+		templ = self.template.format(log_name, self.path.ligandpdbqt(cid))
+		target = '{}.sbatch'.format(self.proc_name)
 		open(target, 'w').write(templ)
 
 		self.command = 'sbatch ' + target
@@ -36,7 +43,7 @@ class PrepareGrid(PairDaemon):
 		PairDaemon.prepare(self, pid, cid, templ)
 
 	def resume(self, pid, cid):
-		target = '{}.sbatch'.format(id, self.proc_name)
+		target = '{}.sbatch'.format(self.proc_name)
 		os.system('rm -f {}'.format(target) )
 
 		PairDaemon.resume(self, pid, cid)

@@ -5,4 +5,4 @@
 #SBATCH -o {}
 
 # run
-prepare_gpf4.py -l {0} -r {} -y -o receptor.gpf
+prepare_gpf4.py -l {} -r receptor.pdbqt -y -o receptor.gpf
