@@ -4,3 +4,7 @@ waste.*
 *.pdb
 *.out
 *.gpf
+*.dpf
+*.xyz
+*.fld
+*.map

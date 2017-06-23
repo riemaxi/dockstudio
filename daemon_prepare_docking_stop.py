@@ -1,6 +1,6 @@
 from signal import SIGTERM
 import os
-from daemon_create_grid import CreateGrid, pt, process_name
+from daemon_prepare_docking import PrepareDocking, pt, process_name
 
 try:
 	pid = int(open(pt.pidfile(process_name)).read().strip('\n'))
