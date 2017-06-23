@@ -5,6 +5,8 @@ class Path:
 		self.root = p._('root', os.getcwd())
 		self.project = self.root + '/project/'
 		self.dir = self.project + p._('project.wizard.create.name')
+		self.template = self.project + 'template/'
+		self.docking_template = self.template + 'docking_param.txt'
 		self.data = self.dir + '/data/'
 		self.log = self.dir + '/log'
 		self.docking = self.dir + '/docking/'
