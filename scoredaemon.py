@@ -25,10 +25,11 @@ class ScoreDaemon(Daemon):
 
 		try:
 			with open(score_file) as file:
-				data = file.read().split('\n')[::-1]
-				score_line = [s for s in data if 'Estimated Free Energy of Binding' in s]
-				score =  min(score_line[0].split('=',1)[1].split())
-			return score
+				scores = []
+				for line in file.read().split('\n'):
+					if 'Estimated Free Energy of Binding' in line:
+						scores.append( float(line.split('=',1)[1].split()[0]) )
+			return min(scores)
 		except:
 	                return '-'
 
@@ -41,7 +42,7 @@ class ScoreDaemon(Daemon):
 		filename = self.path.log + '/' + self.proc_name + '_scoring.txt'
 		data = '\n'.join(['{}\t{}'.format(key,score) for key,score in self.data.items()])
 		with open(filename,'w') as file:
-			file.write(data)
+			file.write(data + '\n')
 
 	def run(self):
 		while True:
