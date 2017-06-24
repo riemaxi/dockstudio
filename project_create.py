@@ -8,7 +8,7 @@ dir = p._('project.dir')
 name = p._('project.wizard.create.name')
 project_dir = dir + '/' + name
 
-os.system('rm -r {}'.format(project_dir))
+os.system('rm -rf {}'.format(project_dir))
 
 os.system('mkdir {}'.format(project_dir))
 os.system('mkdir {}/data'.format(project_dir))
@@ -21,3 +21,4 @@ os.system('mkdir {}/docking/receptor'.format(project_dir))
 os.system('mkdir {}/docking/ligand'.format(project_dir))
 os.system('mkdir {}/log'.format(project_dir))
 os.system('mkdir {}/stage'.format(project_dir))
+os.system('mkdir {}/report'.format(project_dir))

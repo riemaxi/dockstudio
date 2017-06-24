@@ -25,11 +25,11 @@ class PDBQTDaemon(Daemon):
 		pass
 
 	def jCount(self):
-		os.system('squeue -u {} -n {}.sbatch | wc > {}'.format(self.user, self.proc_name, self.path.squeue_stats(self.proc_name)))
+		os.system("squeue -u {} | grep -e '{}_{}' | wc > {}".format(self.user,self.path.project_name, self.proc_name, self.path.squeue_stats(self.proc_name)))
 		tpl = open(self.path.squeue_stats(self.proc_name)).read().strip()
 		tpl = re.split('\s+',tpl)
 
-		return int(tpl[0])-1
+		return int(tpl[0])
 
 	def hold(self):
 		jc = self.jCount()

@@ -30,7 +30,7 @@ class PrepareReceptor(PDBQTDaemon):
 
 		log_name = '{}/{}_{}.out'.format(self.path.log, self.proc_name, id)
 		templ = self.template.format(log_name, self.path.receptor(id), id)
-		target = '{}_{}.sbatch'.format(id, self.proc_name)
+		target = '{}_{}_{}.sbatch'.format(self.path.project_name, self.proc_name, id)
 		open(target, 'w').write(templ)
 
 		self.command = 'sbatch ' + target
@@ -38,7 +38,7 @@ class PrepareReceptor(PDBQTDaemon):
 		PDBQTDaemon.prepare(self, id, templ)
 
 	def resume(self, id):
-		target = '{}_{}.sbatch'.format(id, self.proc_name)
+		target = '{}_{}_{}.sbatch'.format(self.path.project_name, self.proc_name, id)
 		os.system('rm -f {}'.format(target) )
 
 		PDBQTDaemon.resume(self, id)

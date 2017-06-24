@@ -4,7 +4,8 @@ class Path:
 	def __init__(self, p):
 		self.root = p._('root', os.getcwd())
 		self.project = self.root + '/project/'
-		self.dir = self.project + p._('project.wizard.create.name')
+		self.project_name = p._('project.wizard.create.name')
+		self.dir = self.project + self.project_name
 		self.template = self.project + 'template/'
 		self.docking_template = self.template + 'docking_param.txt'
 		self.data = self.dir + '/data/'

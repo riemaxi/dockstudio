@@ -35,7 +35,7 @@ class PrepareDocking(PairDaemon):
 
 		log_name = '{}/{}_{}_{}.out'.format(self.path.log, self.proc_name, pid,cid)
 		templ = self.template.format(log_name)
-		target = '{}.sbatch'.format(self.proc_name)
+		target = '{}_{}.sbatch'.format(self.path.project_name, self.proc_name)
 		open(target, 'w').write(templ)
 
 		self.command = 'sbatch ' + target
@@ -43,7 +43,7 @@ class PrepareDocking(PairDaemon):
 		PairDaemon.prepare(self, pid, cid, templ)
 
 	def resume(self, pid, cid):
-		target = '{}.sbatch'.format(self.proc_name)
+		target = '{}_{}.sbatch'.format(self.path.project_name, self.proc_name)
 		os.system('rm -f {}'.format(target) )
 
 		PairDaemon.resume(self, pid, cid)
