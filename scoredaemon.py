@@ -29,23 +29,59 @@ class ScoreDaemon(Daemon):
 				for line in file.read().split('\n'):
 					if 'Estimated Free Energy of Binding' in line:
 						scores.append( float(line.split('=',1)[1].split()[0]) )
-			return min(scores)
+			score = min(scores)
+			self.max = max(score, self.max)
+			return score
 		except:
-	                return '-'
+	                return '_'
 
 	
 	def process_pair(self, pid, cid):
 		self.data['{}\t{}'.format(pid,cid)] = self.getScore(pid, cid)
+		
 
-
-	def print_score(self):
+	def print_table(self):
 		filename = self.path.log + '/' + self.proc_name + '_scoring.txt'
 		data = '\n'.join(['{}\t{}'.format(key,score) for key,score in self.data.items()])
+
+		outside = str(int(self.max/1000 + 1000))
 		with open(filename,'w') as file:
-			file.write(data + '\n')
+			file.write(data.replace('_',outside) + '\n')
+
+	def print_matrix(self):
+		file = open(self.path.log + '/' + self.proc_name + '_matrix.txt','w')
+		columns = []
+		rows = []
+		for key, score in self.data.items():
+			x,y = key.split('\t')
+			if x not in columns:
+				columns.append(x)
+			if y not in rows:
+				rows.append(y)
+
+
+		columns = sorted(columns)
+		rows = sorted(rows)
+
+		outside = str(int(self.max/1000 + 1000))
+		file.write(str(self.max) + '\t' + '\t'.join(columns) + '\n')
+		for y in rows:
+			file.write(y)
+			for x in columns:
+				score = str(self.data['{}\t{}'.format(x,y)]).replace('_', outside)
+				file.write('\t{}'.format(score))
+			file.write('\n')
+
+		file.close()
+		
+
+	def print_score(self):
+		self.print_table()
+		self.print_matrix()
 
 	def run(self):
 		while True:
+			self.max = float('-inf')
 			self.db.foreach(
 				lambda pid, cid: self.process_pair(pid, cid)
 			)
