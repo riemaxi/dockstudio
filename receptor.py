@@ -15,19 +15,23 @@ class Receptor(Molecule):
 		Molecule.pushEntity(self, self.location, [(0, id)])
 		self.location += 1
 
-	def fetchStructure(self, id):
-		url = self.STRUCTURE_URL.format(id)
-		try:
-			req = Ureq.Request(url)
-			with Ureq.urlopen(req) as resp:
-				return resp.read().decode('utf8')
-		except:
-			return url
+	def fetchStructure(self, id, download, sink, other):
+		if download != None and download(id):
+			url = self.STRUCTURE_URL.format(id)
+			try:
+				req = Ureq.Request(url)
+				with Ureq.urlopen(req) as resp:
+					sink(id, resp.read().decode('utf8'), self.STRUCTURE_FORMAT)
+			except:
+				sink(id, None, None)
+		else:
+			if other != None:
+				other(id)
 
-	def foreachStructure(self, sink):
+	def foreachStructure(self, sink, download = True, other = None):
 		Molecule.foreach(
 			self,
-			lambda data: sink(data[1][1], self.fetchStructure(data[1][1]), self.STRUCTURE_FORMAT)
+			lambda data: self.fetchStructure(data[1][1], download,sink, other)
 		)
 
 	def fetchRecord(self, id, columns, colist):

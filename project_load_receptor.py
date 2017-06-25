@@ -1,8 +1,11 @@
+import re
 import os
 from parameter import Parameter
 from receptor import Receptor
+from path import Path
 
 p = Parameter()
+pt = Path(p)
 
 #locate tree
 dir = p._('project.dir') + '/'
@@ -23,15 +26,27 @@ for id in open(filename):
 molecule.commit()
 
 # download structures
-def save(id,s,format, dir):
+def instage(id, pt):
+	stagefile = pt.stage + '/{}.pdb'.format(id)
+	return os.path.isfile(stagefile)
+
+def move(id, dir, pt):
+	stagefile = pt.stage + '/{}.pdb'.format(id)
+	os.system('mv {} {}'.format(stagefile, dir))
+	print(id)
+	
+def save(id,s,format, dir, pt):
 	filename = '{}/{}.{}'.format(dir, id, format)
 	with open(filename,'w') as file:
 		file.write(s)
+
 	print(id)
 
 structure_dir = data_dir + 'structure/receptor'
 molecule.foreachStructure(
-	lambda id, s, format: save(id, s, format, structure_dir)
+	lambda id, s, format: save(id, s, format, structure_dir, pt),
+	lambda id: not instage(id, pt),
+	lambda id: move(id, structure_dir, pt)
 	)
 
 molecule.close()

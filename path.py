@@ -10,6 +10,7 @@ class Path:
 		self.docking_template = self.template + 'docking_param.txt'
 		self.data = self.dir + '/data/'
 		self.log = self.dir + '/log'
+		self.stage = self.dir + '/stage'
 		self.docking = self.dir + '/docking/'
 		self.pairdb = self.data + p._('project.wizard.pair.db')
 		self.receptordb = self.data + p._('project.wizard.receptor.db')
