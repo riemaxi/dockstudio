@@ -1,4 +1,7 @@
 import os
+import re
+import glob
+import ntpath
 
 class Path:
 	def __init__(self, p):
@@ -18,12 +21,19 @@ class Path:
 		self.docking_ligand = self.docking + 'ligand'
 		self.docking_receptor = self.docking + 'receptor'
 
-	def clear(self, proc_name):
+	def filename(self, pattern, path, globpattern):
+		names = '\n'.join([ntpath.basename(path) for path in  glob.glob(path + '/' + globpattern)])
+		m =  re.search(pattern.format(id), names, re.IGNORECASE)
+		return path + '/' + m.group(0) if m != None else None
+
+
+	def clear(self, proc_name, out = False):
 		os.system('rm -f ' + self.pidfile(proc_name))
 		os.system('rm -f ' + self.stdout(proc_name))
 		os.system('rm -f ' + self.stderr(proc_name))
 		os.system('rm -f ' + self.squeue_stats(proc_name))
-		os.system('rm -f {}/{}_*.out'.format(self.log, proc_name))
+		if out:
+			os.system('rm -f {}/{}_*.out'.format(self.log, proc_name))
 
 
 	def pairdir(self, pid, cid):

@@ -44,9 +44,12 @@ class ScoreDaemon(Daemon):
 		filename = self.path.log + '/' + self.proc_name + '_scoring.txt'
 		data = '\n'.join(['{}\t{}'.format(key,score) for key,score in self.data.items()])
 
-		outside = str(int(self.max/1000 + 1000))
 		with open(filename,'w') as file:
-			file.write(data.replace('_',outside) + '\n')
+			file.write(data.replace('_',self.outside()) + '\n')
+
+	def outside(self):
+		return '1000' if self.max == float('-inf') else str(int(self.max/1000 + 1000))
+
 
 	def print_matrix(self):
 		file = open(self.path.log + '/' + self.proc_name + '_matrix.txt','w')
@@ -63,8 +66,8 @@ class ScoreDaemon(Daemon):
 		columns = sorted(columns)
 		rows = sorted(rows)
 
-		outside = str(int(self.max/1000 + 1000))
 		file.write(str(self.max) + '\t' + '\t'.join(columns) + '\n')
+		outside = self.outside()
 		for y in rows:
 			file.write(y)
 			for x in columns:

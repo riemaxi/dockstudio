@@ -1,4 +1,6 @@
 import re
+import glob
+import ntpath
 import os
 from parameter import Parameter
 from receptor import Receptor
@@ -27,26 +29,25 @@ molecule.commit()
 
 # download structures
 def instage(id, pt):
-	stagefile = pt.stage + '/{}.pdb'.format(id)
-	return os.path.isfile(stagefile)
+	return pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb') != None
 
-def move(id, dir, pt):
-	stagefile = pt.stage + '/{}.pdb'.format(id)
-	os.system('mv {} {}'.format(stagefile, dir))
-	print(id)
+def copy(id, dir, pt):
+	stagefile = pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb')
+	os.system('cp {} {}/{}.pdb'.format(stagefile, dir, id.upper()))
+	print('stage: ', id, sep = '\t')
 	
 def save(id,s,format, dir, pt):
 	filename = '{}/{}.{}'.format(dir, id, format)
 	with open(filename,'w') as file:
 		file.write(s)
 
-	print(id)
+	print('rcsb: ', id, sep = '\t')
 
 structure_dir = data_dir + 'structure/receptor'
 molecule.foreachStructure(
 	lambda id, s, format: save(id, s, format, structure_dir, pt),
 	lambda id: not instage(id, pt),
-	lambda id: move(id, structure_dir, pt)
+	lambda id: copy(id, structure_dir, pt)
 	)
 
 molecule.close()
