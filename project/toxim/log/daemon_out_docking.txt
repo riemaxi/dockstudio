@@ -1,0 +1,32 @@
+Submitted batch job 605160
+1AB8	20006
+Submitted batch job 605161
+1AB8	30698
+Submitted batch job 605162
+1AB8	40001
+Submitted batch job 605163
+1AB8	47628
+Submitted batch job 605164
+1D5R	20006
+Submitted batch job 605165
+1D5R	30698
+Submitted batch job 605166
+1D5R	40001
+Submitted batch job 605167
+1D5R	47628
+Submitted batch job 605168
+1DIY	20006
+Submitted batch job 605169
+1DIY	30698
+Submitted batch job 605170
+1DIY	40001
+Submitted batch job 605171
+1DIY	47628
+Submitted batch job 605172
+1FVR	20006
+Submitted batch job 605173
+1FVR	30698
+Submitted batch job 605174
+1FVR	40001
+Submitted batch job 605175
+1FVR	47628
