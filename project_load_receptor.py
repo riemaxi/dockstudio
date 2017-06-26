@@ -37,11 +37,12 @@ def copy(id, dir, pt):
 	print('stage: ', id, sep = '\t')
 	
 def save(id,s,format, dir, pt):
-	filename = '{}/{}.{}'.format(dir, id, format)
-	with open(filename,'w') as file:
-		file.write(s)
+	if s != None:
+		filename = '{}/{}.{}'.format(dir, id, format)
+		with open(filename,'w') as file:
+			file.write(s)
 
-	print('rcsb: ', id, sep = '\t')
+	print('rcsb: ', id, s != None,  sep = '\t')
 
 structure_dir = data_dir + 'structure/receptor'
 molecule.foreachStructure(

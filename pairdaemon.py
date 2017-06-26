@@ -26,7 +26,7 @@ class PairDaemon(Daemon):
 		pass
 
 	def jCount(self):
-		os.system("squeue -u {} --Format=name | grep -e '{}_{}' | wc > {}".format(self.user, self.path.project_name, self.proc_name, self.path.squeue_stats(self.proc_name)))
+		os.system("squeue -t R -u {} --Format=name | grep -e '{}_{}' | wc > {}".format(self.user, self.path.project_name, self.proc_name, self.path.squeue_stats(self.proc_name)))
 		tpl = open(self.path.squeue_stats(self.proc_name)).read().strip()
 		tpl = re.split('\s+',tpl)
 
@@ -34,7 +34,7 @@ class PairDaemon(Daemon):
 
 	def hold(self):
 		jc = self.jCount()
-		while jc > 0:
+		while jc > 10:
 			print('holding ... {} jobs'.format(jc))
 			time.sleep(self.hold_time)
 			jc = self.jCount()

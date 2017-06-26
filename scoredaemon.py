@@ -1,3 +1,4 @@
+import math
 import sys
 import os
 from parameter import Parameter
@@ -48,7 +49,11 @@ class ScoreDaemon(Daemon):
 			file.write(data.replace('_',self.outside()) + '\n')
 
 	def outside(self):
-		return '1000' if self.max == float('-inf') else str(int(self.max/1000 + 1000))
+		try:
+			p = int(math.pow(10, int(math.log10(self.max) + 3)))
+			return str(p)
+		except:
+			return 'xxxx'
 
 
 	def print_matrix(self):
