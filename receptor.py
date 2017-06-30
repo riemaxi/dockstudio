@@ -15,6 +15,19 @@ class Receptor(Molecule):
 		Molecule.pushEntity(self, self.location, [(0, id)])
 		self.location += 1
 
+	def rem(self, ids):
+		def select(location, id, ids, locations):
+			if id in ids:
+				locations.append(str(location))
+
+		locations = []
+		
+		Molecule.foreach(
+			self,
+			lambda data: select(data[0][1], data[1][1], ids, locations)
+		)
+		Molecule.rem(self, ",".join(locations))
+
 	def fetchStructure(self, id, download, sink, other):
 		if download != None and download(id):
 			url = self.STRUCTURE_URL.format(id)

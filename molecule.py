@@ -6,3 +6,6 @@ class Molecule(Domain):
 
 	def add(self, id):
 		pass
+
+	def rem(self, ids):
+		Domain.rem(self, 'id in ({})'.format(ids))

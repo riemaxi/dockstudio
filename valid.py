@@ -32,6 +32,13 @@ class Domain:
 		if commit:
 			self.sess.commit()
 
+	def rem(self, criteria):
+		c = self.sess.cursor()
+		query = 'delete from assignment where {}'.format(criteria)
+		c.execute(query)
+		self.sess.commit()
+		
+
 
 	def exists(self, fields):
 		c = self.sess.cursor()

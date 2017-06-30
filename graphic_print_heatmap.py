@@ -17,16 +17,27 @@ def create_gradient(limit):
 def color(score, gradient):
 	index = int(score) - 1
 	rgb = gradient[index]
-	#print(rgb[0], rgb[1],rgb[2])
-	#return '\x1b[{};{};{}m \x1b[0m'.format( rgb[0] , rgb[1], rgb[2] )
-	return '\x1b[{};{};{}m \x1b[0m'.format( 30, 40, 50 )
+	print('#{},#{},#{}'.format(rgb[0], rgb[1],rgb[2]))
 
-print( next( sys.stdin).strip('\n') )
+scores =  next( sys.stdin).strip('\n').split('\t')
+
+print('\t', end='')
+for score in scores[1:]:
+	if score != '4JP4':
+		print(score, end='\t')
+print()
 
 gradient = create_gradient(200)
 
+min = -7.01
+max = 63.33
+limit = max - min
 for line in sys.stdin:
 	label, scores = line.strip('\n').split('\t',1)
 	print(label, end='\t')
-	scores = '\t'.join( [ color(float(score) * .001, gradient) for score in scores.split('\t') ] )
-	print( scores )
+	
+	for score in scores.split('\t'):
+		if score != '10000':
+			p = (max - float(score))/(max - min)
+			print('{0:.2f}'.format(100*p), end='\t')
+	print()

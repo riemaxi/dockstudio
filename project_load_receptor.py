@@ -31,24 +31,30 @@ molecule.commit()
 def instage(id, pt):
 	return pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb') != None
 
-def copy(id, dir, pt):
+def copy(id, dir, pt, pids):
 	stagefile = pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb')
 	os.system('cp {} {}/{}.pdb'.format(stagefile, dir, id.upper()))
-	print('stage: ', id, sep = '\t')
+
+	print('!','stage: ', id, sep = '\t')
 	
-def save(id,s,format, dir, pt):
+def save(id,s,format, dir, pt, pids):
 	if s != None:
 		filename = '{}/{}.{}'.format(dir, id, format)
 		with open(filename,'w') as file:
 			file.write(s)
+	else:
+		pids.append(id)
 
-	print('rcsb: ', id, s != None,  sep = '\t')
+	print('!' if s!=None else '?', 'rcsb: ', id,  sep = '\t')
 
 structure_dir = data_dir + 'structure/receptor'
+pids = []
 molecule.foreachStructure(
-	lambda id, s, format: save(id, s, format, structure_dir, pt),
+	lambda id, s, format: save(id, s, format, structure_dir, pt, pids),
 	lambda id: not instage(id, pt),
-	lambda id: copy(id, structure_dir, pt)
+	lambda id: copy(id, structure_dir, pt, pids)
 	)
+
+molecule.rem(pids)
 
 molecule.close()

@@ -32,6 +32,8 @@ class ScoreDaemon(Daemon):
 						scores.append( float(line.split('=',1)[1].split()[0]) )
 			score = min(scores)
 			self.max = max(score, self.max)
+			self.min = min(score, self.min)
+
 			return score
 		except:
 	                return '_'
@@ -56,7 +58,7 @@ class ScoreDaemon(Daemon):
 			return 'xxxx'
 
 
-	def print_matrix(self):
+	def print_score_matrix(self):
 		file = open(self.path.log + '/' + self.proc_name + '_matrix.txt','w')
 		columns = []
 		rows = []
@@ -81,15 +83,51 @@ class ScoreDaemon(Daemon):
 			file.write('\n')
 
 		file.close()
+
+
+	def print_heat_matrix(self):
+		file = open(self.path.log + '/' + self.proc_name + '_heat_matrix.txt','w')
+		columns = []
+		rows = []
+		for key, score in self.data.items():
+			x,y = key.split('\t')
+			if x not in columns:
+				columns.append(x)
+			if y not in rows:
+				rows.append(y)
+
+
+		columns = sorted(columns)
+		rows = sorted(rows)
+
+		file.write(str(self.max) + '\t' + '\t'.join(columns) + '\n')
+		outside = self.outside()
+		for y in rows:
+			file.write(y)
+			for x in columns:
+				score = str(self.data['{}\t{}'.format(x,y)]).replace('_', outside)
+
+				if score == 'xxxx' or score == '10000':
+					file.write('\t{}'.format(score))
+				else:
+					score = (float(score) - self.min)/(self.max - self.min)
+					file.write('\t{0:.2f}'.format(score))
+
+			file.write('\n')
+
+		file.close()
+
 		
 
 	def print_score(self):
 		self.print_table()
-		self.print_matrix()
+		self.print_score_matrix()
+		self.print_heat_matrix()
 
 	def run(self):
 		while True:
 			self.max = float('-inf')
+			self.min = float('+inf')
 			self.db.foreach(
 				lambda pid, cid: self.process_pair(pid, cid)
 			)
