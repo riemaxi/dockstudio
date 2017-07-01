@@ -17,7 +17,6 @@ class PairDaemon(Daemon):
 		self.proc_name = proc_name
 		self.hold_time = hold_time
 		self.template = open(self.path.job_template(self.proc_name)).read()
-		self.count = 1
 
 	def prepare(self, pid, cid, templ):
 		pass
@@ -30,7 +29,9 @@ class PairDaemon(Daemon):
 		tpl = open(self.path.squeue_stats(self.proc_name)).read().strip()
 		tpl = re.split('\s+',tpl)
 
-		return int(tpl[0])
+		count = int(tpl[0])
+		print('squeue running jobs: ',count)
+		return count
 
 	def hold(self):
 		jc = self.jCount()
@@ -46,7 +47,7 @@ class PairDaemon(Daemon):
 		if self.step_done(pid, cid):
 			return False
 
-		if self.count % self.payload == 0:
+		if self.index % self.payload == 0:
 			self.hold()
 
 		self.prepare(pid, cid, self.template)
@@ -57,20 +58,21 @@ class PairDaemon(Daemon):
 
 		print('{}\t{}'.format(pid,cid))
 
-		self.count += 1
+		self.count -= 1
+		self.index += 1
 
 
 	def run(self):
+		self.count = self.db.size()
 		while self.count > 0:
+			self.index = 1
 			self.db.foreach(
 				lambda pid, cid: self.process_pair(pid, cid)
 			)
-			self.count = 0
 
 		self.db.close()
 
 	def restart(self):
-		self.count = 1
 		Daemon.restart(self)
 
 	def stop(self):

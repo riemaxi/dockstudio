@@ -16,7 +16,6 @@ class PDBQTDaemon(Daemon):
 		self.proc_name = proc_name
 		self.hold_time = hold_time
 		self.template = open(self.path.job_template(self.proc_name)).read()
-		self.count = 1
 
 	def prepare(self, id, templ):
 		pass
@@ -25,7 +24,7 @@ class PDBQTDaemon(Daemon):
 		pass
 
 	def jCount(self):
-		os.system("squeue -u {} --Format=name | grep -e '{}_{}' | wc > {}".format(self.user,self.path.project_name, self.proc_name, self.path.squeue_stats(self.proc_name)))
+		os.system("squeue -u -t R {} --Format=name | grep -e '{}_{}' | wc > {}".format(self.user,self.path.project_name, self.proc_name, self.path.squeue_stats(self.proc_name)))
 		tpl = open(self.path.squeue_stats(self.proc_name)).read().strip()
 		tpl = re.split('\s+',tpl)
 
@@ -46,7 +45,7 @@ class PDBQTDaemon(Daemon):
 		if self.molecule_done(id):
 			return False
 
-		if self.count % self.payload == 0:
+		if self.index % self.payload == 0:
 			self.hold()
 
 		self.prepare(id, self.template)
@@ -57,20 +56,21 @@ class PDBQTDaemon(Daemon):
 
 		print('{}'.format(id))
 
-		self.count += 1
+		self.count -= 1
+		self.index += 1
 
 	def run(self):
+		self.count = self.db.size()
 		while self.count > 0:
+			self.index = 1
 			self.db.foreachId(
 				lambda id: self.process_molecule(id)
 			)
-			self.count = 0
 
 		self.db.close()
 
 
 	def restart(self):
-		self.count = 1
 		Daemon.restart(self)
 
 	def stop(self):

@@ -12,8 +12,10 @@ class Receptor(Molecule):
 		self.location = self.getMaxEntityId() + 1
 
 	def add(self,id):
-		Molecule.pushEntity(self, self.location, [(0, id)])
-		self.location += 1
+		id = id.strip().upper()
+		if len(id):
+			Molecule.pushEntity(self, self.location, [(0, id)])
+			self.location += 1
 
 	def rem(self, ids):
 		def select(location, id, ids, locations):

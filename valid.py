@@ -131,6 +131,13 @@ class Domain:
 					return
 			id = record[0]
 
+	def size(self, criteria = '1=1'):
+		c = self.sess.cursor()
+		query = 'select count(e.id) from assignment e join value v on e.value = v.id where e.domain = {0} and {1} order by e.id, e.dimension, e.value'.format(self.domain, criteria)
+		c.execute(query)
+		result = c.fetchone()
+		return 0 if result == None else result[0]
+
 	def xforeach(self, query, sink):
 		c = self.sess.cursor()
 		result = c.execute(query)

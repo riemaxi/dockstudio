@@ -48,6 +48,7 @@ class ScoreDaemon(Daemon):
 		data = '\n'.join(['{}\t{}'.format(key,score) for key,score in self.data.items()])
 
 		with open(filename,'w') as file:
+			file.write('{}\t{}\n'.format(self.min, self.max))
 			file.write(data.replace('_',self.outside()) + '\n')
 
 	def outside(self):

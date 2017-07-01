@@ -10,3 +10,4 @@ waste.*
 *.map
 *.log
 *.txt
+*.pid

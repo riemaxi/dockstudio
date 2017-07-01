@@ -32,10 +32,14 @@ def instage(id, pt):
 	return pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb') != None
 
 def copy(id, dir, pt, pids):
-	stagefile = pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb')
-	os.system('cp {} {}/{}.pdb'.format(stagefile, dir, id.upper()))
+	try:
+		stagefile = pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb')
+		os.system('cp {} {}/{}.pdb'.format(stagefile, dir, id.upper()))
 
-	print('!','stage: ', id, sep = '\t')
+		print('!','stage: ', id, sep = '\t')
+	except:
+		print('?','stage: ', id, sep = '\t')
+		pids.append(id)
 	
 def save(id,s,format, dir, pt, pids):
 	if s != None:

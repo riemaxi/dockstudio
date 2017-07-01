@@ -11,7 +11,9 @@ class Ligand(Molecule):
 		Molecule.__init__(self, name)
 
 	def add(self, id):
-		Molecule.pushEntity(self, id, [(0, id)])
+		id = id.strip()
+		if len(id):
+			Molecule.pushEntity(self, id, [(0, id)])
 
 	def fetch(self, id):
 		url = self.STRUCTURE_URL.format(id)
