@@ -8,4 +8,4 @@ try:
 except OSError as e:
 	pass
 
-pt.clear(process_name)
+pt.clear(process_name, True)

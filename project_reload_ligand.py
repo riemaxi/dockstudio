@@ -1,10 +1,8 @@
 import os
 from parameter import Parameter
-from path import Path
 from ligand import Ligand
 
 p = Parameter()
-pt = Path(p)
 
 #locate tree
 dir = p._('project.dir')
@@ -15,7 +13,7 @@ data_dir = project_dir + '/data'
 filename = '{}/stage/{}'.format(project_dir,p._('project.wizard.load.ligand'))
 
 #import data
-molecule = Ligand(pt.liganddb)
+molecule = Ligand(data_dir + '/' + p._('project.wizard.ligand.db'))
 molecule.clear()
 
 for id in open(filename):
@@ -25,19 +23,6 @@ for id in open(filename):
 molecule.commit()
 
 # download ligand structures
-def instage(id, pt):
-	return pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb') != None
-
-def copy(id, dir, pt, pids):
-	try:
-		stagefile = pt.filename('{}.pdb'.format(id), pt.stage, '*.pdb')
-		os.system('cp {} {}/{}.pdb'.format(stagefile, dir, id.upper()))
-
-		print('!','stage: ', id, sep = '\t')
-	except:
-		print('?','stage: ', id, sep = '\t')
-		pids.append(id)
-
 def save(id, s, format, dir):
 	filename = '{}/{}.{}'.format(dir,id, format)
 	with open(filename,'w') as file:
@@ -45,11 +30,23 @@ def save(id, s, format, dir):
 	print(id)
 
 structure_dir = project_dir + '/data/structure/ligand'
-pids = []
 molecule.foreachStructure(
-	lambda id, s, format: save(id, s, format, structure_dir),
-	lambda id : not instage(id, pt),
-	lambda id : copy(str(id), structure_dir, pt, pids)
+	lambda id, s, format: save(id, s, format, structure_dir)
+	)
+
+print('convert to pdb')
+
+def convert(id, dir, fromformat, toformat):
+	org = '{}/{}.{}'.format(dir,id, fromformat)
+	dst = '{}/{}.{}'.format(dir,id, toformat)
+
+	os.system('obabel -i{} {} -o{} > {}'.format(fromformat,org,toformat, dst))
+	os.system('rm ' + org)
+	print(id)
+	
+
+molecule.foreach(
+	lambda data: convert(data[1][1], structure_dir, 'sdf','pdb')
 )
 
 molecule.close()

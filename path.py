@@ -23,7 +23,7 @@ class Path:
 
 	def filename(self, pattern, path, globpattern):
 		names = '\n'.join([ntpath.basename(path) for path in  glob.glob(path + '/' + globpattern)])
-		m =  re.search(pattern.format(id), names, re.IGNORECASE)
+		m =  re.search(pattern, names, re.IGNORECASE)
 		return path + '/' + m.group(0) if m != None else None
 
 

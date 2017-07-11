@@ -11,3 +11,4 @@ waste.*
 *.log
 *.txt
 *.pid
+project/*

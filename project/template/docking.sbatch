@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-#SBATCH -t 05:00:00
+#SBATCH -t 10:00:00
 #SBATCH --qos=high-throughput
 #SBATCH -o {}
 

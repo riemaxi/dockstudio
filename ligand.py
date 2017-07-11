@@ -15,19 +15,22 @@ class Ligand(Molecule):
 		if len(id):
 			Molecule.pushEntity(self, id, [(0, id)])
 
-	def fetch(self, id):
-		url = self.STRUCTURE_URL.format(id)
-		try:
-			req = Ureq.Request(url)
-			with Ureq.urlopen(req) as resp:
-				return resp.read().decode('utf8')
-		except OSError as e:
-			return e
+	def fetch(self, id, sink, download, other):
+		if download != None and download(id):
+			url = self.STRUCTURE_URL.format(id)
+			try:
+				req = Ureq.Request(url)
+				with Ureq.urlopen(req) as resp:
+					sink(id, resp.read().decode('utf8'), self.STRUCTURE_FORMAT)
+			except OSError as e:
+				sink(id, None, None)
+		else:
+			other(id)
 
-	def foreachStructure(self, sink):
+	def foreachStructure(self, sink, download = None, other = None):
 		Molecule.foreach(
 			self,
-			lambda data: sink(data[0][1], self.fetch(data[0][1]), self.STRUCTURE_FORMAT)
+			lambda data: self.fetch(data[0][1], sink, download, other )
 		)
 
 	def getData(self, r, columns):

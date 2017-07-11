@@ -4,9 +4,10 @@ user: ferrer
 project.dir: project
 
 # wizard
-#project.wizard.create.name: toxim
+project.wizard.create.name: toxim
 #project.wizard.create.name: toxim10x10
-project.wizard.create.name: sipes
+#project.wizard.create.name: sipes
+#project.wizard.create.name: nonzeroac50
 
 project.wizard.load.receptor: receptor.txt
 project.wizard.load.ligand: ligand.txt
