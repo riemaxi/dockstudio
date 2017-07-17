@@ -74,7 +74,7 @@ class ScoreDaemon(Daemon):
 		columns = sorted(columns)
 		rows = sorted(rows)
 
-		file.write(str(self.max) + '\t' + '\t'.join(columns) + '\n')
+		file.write('{}\t{}'.format(self.min,self.max) + '\n\t' + '\t'.join(columns) + '\n')
 		outside = self.outside()
 		for y in rows:
 			file.write(y)
@@ -101,7 +101,7 @@ class ScoreDaemon(Daemon):
 		columns = sorted(columns)
 		rows = sorted(rows)
 
-		file.write(str(self.max) + '\t' + '\t'.join(columns) + '\n')
+		file.write('{}\t{}'.format(self.min,self.max) + '\n\t' + '\t'.join(columns) + '\n')
 		outside = self.outside()
 		for y in rows:
 			file.write(y)

@@ -4,8 +4,8 @@ user: ferrer
 project.dir: project
 
 # wizard
-project.wizard.create.name: toxim
-#project.wizard.create.name: toxim10x10
+#project.wizard.create.name: toxim
+project.wizard.create.name: toxim10x10
 #project.wizard.create.name: sipes
 #project.wizard.create.name: nonzeroac50
 
@@ -18,5 +18,7 @@ project.wizard.pair.db: pair.db
 project.wizard.receptor_report.columns: structureTitle,structureAuthor
 #project.wizard.ligand_report.columns: Rotateble Bond,InChI, Molecular Formula, Weight, Isomeric
 project.wizard.ligand_report.columns: Weight, Molecular Formula
+
+project.wizard.receptor_remove_noise.include: 4JP4
 
 daemon.sbatch.payload: 100

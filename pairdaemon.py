@@ -45,6 +45,7 @@ class PairDaemon(Daemon):
 
 	def process_pair(self, pid, cid):
 		if self.step_done(pid, cid):
+			self.count -= 1
 			return False
 
 		if self.index % self.payload == 0:

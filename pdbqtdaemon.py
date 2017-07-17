@@ -43,6 +43,7 @@ class PDBQTDaemon(Daemon):
 
 	def process_molecule(self, id):
 		if self.molecule_done(id):
+			self.count -= 1
 			return False
 
 		if self.index % self.payload == 0:
