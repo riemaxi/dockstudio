@@ -3,114 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>_DS_TITLE_DS_</title>
+   
     <style>
-      body, html, h2 { margin:0; padding:0; height:100%;}
-      body { font-family:sans-serif; }
-      body * { font-weight:200;}
-      #heatmapContainerWrapper { width:100%; height:100%; position:absolute; background:rgba(0,0,0,.1); }
-      #heatmapContainer { width:100%; height:100%;}
-      #heatmapLegend { background:white; position:absolute; bottom:0; right:0; padding:10px; }
-      #min { float:left; }
-      #max { float:right; }
-      h1 { position:absolute; background:black; color:white; padding:10px; font-weight:200;}
-      #all-examples-info { position:absolute; background:white; font-size:16px; padding:20px; top:100px; width:350px; line-height:150%; border:1px solid rgba(0,0,0,.2);}
+     table{
+      font-family: Arial;
+      font-size: 10px;
+      font-weight: bold;
+     }
     </style>
   </head>
   <body>
-    <div id="heatmapContainerWrapper">
-      <div id="heatmapContainer">
-
-      </div>
-      <div id="heatmapLegend">
-        <h2>Descriptive Legend Title</h2>
-        <span id="min"></span>
-        <span id="max"></span>
-        <img id="gradient" src="" style="width:100%" />
-      </div>
-    </div>
-    <script src="heatmap.js"></script>
-    <script>
-      window.onload = function() {
-        // helper function
-        function $(id) {
-          return document.getElementById(id);
-        };
-
-        /*  legend code */
-        // we want to display the gradient, so we have to draw it
-        var legendCanvas = document.createElement('canvas');
-        legendCanvas.width = 100;
-        legendCanvas.height = 10;
-
-        var legendCtx = legendCanvas.getContext('2d');
-        var gradientCfg = {};
-
-        function updateLegend(data) {
-          // the onExtremaChange callback gives us min, max, and the gradientConfig
-          // so we can update the legend
-          $('min').innerHTML = data.min;
-          $('max').innerHTML = data.max;
-          // regenerate gradient image
-          if (data.gradient != gradientCfg) {
-            gradientCfg = data.gradient;
-            var gradient = legendCtx.createLinearGradient(0, 0, 100, 1);
-            for (var key in gradientCfg) {
-              gradient.addColorStop(key, gradientCfg[key]);
-            }
-
-            legendCtx.fillStyle = gradient;
-            legendCtx.fillRect(0, 0, 100, 10);
-            $('gradient').src = legendCanvas.toDataURL();
-          }
-        };
-        /* legend code end */
-
-
-        // create a heatmap instance
-        var heatmap = h337.create({
-          container: document.getElementById('heatmapContainer'),
-          maxOpacity: .5,
-          radius: 10,
-          blur: .75,
-          // update the legend whenever there's an extrema change
-          onExtremaChange: function onExtremaChange(data) {
-            updateLegend(data);
-          }
-        });
-
-        // boundaries for data generation
-        var width = (+window.getComputedStyle(document.body).width.replace(/px/,''));
-        var height = (+window.getComputedStyle(document.body).height.replace(/px/,''));
-
-        var generate = function(){
-                var data = _DS_DATA_DS_;
-                var max = _DS_MAX_DS_;
-                var min = _DS_MIN_DS_;
-		var size = _DS_SIZE_DS_;
-
-                var xscale = width/size;
-                var yscale = height/size;
-                for(i = 0; i< data.length; i++){
-                        data[i].x = data[i].x * xscale - xscale/2;
-                        data[i].y = data[i].y * yscale - yscale/2;
-                        data[i].radius = Math.min(xscale, yscale);
-                        data[i].value = -data[i].value
-                };
-
-                heatmap.setData({
-                        min: -max,
-                        max: -min,
-                        data : data
-                });
-        }
-
-        // initial generate
-        generate();
-
-        // whenever a user clicks on the ContainerWrapper the data will be regenerated -> new max & min
-        document.getElementById('heatmapContainerWrapper').onclick = function() { generate(); };
-
-      };
-    </script>
+   <table>
+    <tr>
+      <td>_DS_HEATMAP_DS_</td>
+      <td width="100"/>
+      <td>_DS_COLOR_SCALE_DS_</td>
+      <td>_DS_SCORE_SCALE_DS_</td>
+    </tr>
+   </table>
   </body>
 </html>

@@ -21,4 +21,8 @@ project.wizard.ligand_report.columns: Weight, Molecular Formula
 
 project.wizard.receptor_remove_noise.include: 4JP4
 
+project.wizard.heatmap.min: -8.0
+project.wizard.heatmap.max: 0.0
+project.wizard.heatmap.size: 100
+
 daemon.sbatch.payload: 100
